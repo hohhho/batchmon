@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: batchmon
+  datasource:
+    url: jdbc:postgresql://localhost:5432/batchmon
+    username: batchmon
+    password: batchmon
+  jpa:
+    hibernate:
+      ddl-auto: update  #추후 validate로 변경
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
