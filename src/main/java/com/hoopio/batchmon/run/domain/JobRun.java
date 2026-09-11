@@ -51,4 +51,32 @@ public class JobRun {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id", nullable = false)
     private Job job;
+
+
+    // private constructor
+    private JobRun(Job job, RunStatus status, LocalDateTime startedAt, String hostName, TriggerType triggerType) {
+        this.job = job;         // job_id
+        this.status = status;
+        this.startedAt = startedAt;
+        this.hostName = hostName;
+        this.triggerType = triggerType;
+    }
+
+    // static factory method
+    public static JobRun start(Job job, LocalDateTime startedAt, String hostName, TriggerType triggerType) {
+        if(job.getId() == null){
+            throw new IllegalArgumentException("Job id cannot be null");    // fixme: 커스텀 예외 만들면 교체
+        }
+
+        // job이 보낸 시작 시간이 null이면 서버 시각으로 대체
+        if(startedAt == null){
+            startedAt = LocalDateTime.now();
+        }
+
+        if(triggerType == null){
+            triggerType = TriggerType.SCHEDULED;
+        }
+
+        return new JobRun(job, RunStatus.RUNNING, startedAt, hostName, triggerType);
+    }
 }
