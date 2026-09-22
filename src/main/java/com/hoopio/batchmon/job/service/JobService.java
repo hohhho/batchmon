@@ -1,5 +1,6 @@
 package com.hoopio.batchmon.job.service;
 
+import com.hoopio.batchmon.job.exception.JobNotFoundException;
 import com.hoopio.batchmon.job.domain.Job;
 import com.hoopio.batchmon.job.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,6 @@ public class JobService {
      */
     public Job getJobByJobKey(String jobKey) {
         return jobRepository.findByJobKey(jobKey)
-                .orElseThrow(()-> new RuntimeException("Job not found")); // FIXME: 커스텀 Exception 생성 후 교체
+                .orElseThrow(()-> new JobNotFoundException(jobKey));
     }
 }

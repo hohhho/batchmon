@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -64,8 +65,10 @@ public class JobRun {
 
     // static factory method
     public static JobRun start(Job job, LocalDateTime startedAt, String hostName, TriggerType triggerType) {
+        Objects.requireNonNull(job, "job cannot be null");
+
         if(job.getId() == null){
-            throw new IllegalArgumentException("Job id cannot be null");    // fixme: 커스텀 예외 만들면 교체
+            throw new IllegalArgumentException("Job id cannot be null");
         }
 
         // job이 보낸 시작 시간이 null이면 서버 시각으로 대체
